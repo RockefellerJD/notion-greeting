@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Notion Greeting Widget</title>
+    <title>Personalized Greeting Widget</title>
     <style>
-        /* Swiss Design Principles: Minimalist, Sans-serif, Strong Grids */
         body {
             margin: 0;
             display: flex;
@@ -17,33 +16,23 @@
             color: #37352f;
             -webkit-font-smoothing: antialiased;
         }
-
-        .container {
-            text-align: center;
-            padding: 20px;
-        }
-
+        .container { text-align: center; padding: 20px; }
         .greeting {
             font-size: 2.5rem;
             font-weight: 800;
-            letter-spacing: -0.04em; /* Tight kerning for Swiss style */
+            letter-spacing: -0.04em;
             margin-bottom: 8px;
             line-height: 1.1;
         }
-
         .quote {
             font-size: 1.1rem;
             color: #7a7a7a;
             font-weight: 450;
             letter-spacing: -0.01em;
-            max-width: 400px;
+            max-width: 500px;
             margin: 0 auto;
         }
-
-        /* Subtle accent color */
-        .highlight {
-            color: #eb5757; /* Classic Swiss Red accent */
-        }
+        .highlight { color: #eb5757; } /* Swiss Red Accent */
     </style>
 </head>
 <body>
@@ -57,33 +46,62 @@
             const now = new Date();
             const hour = now.getHours();
             const day = now.getDay();
-            
-            // Time-based greetings
-            let greetText;
-            if (hour < 12) greetText = "Good Morning.";
-            else if (hour < 18) greetText = "Good Afternoon.";
-            else greetText = "Good Evening.";
-            
-            // Minimalist daily inspiration
-            const quotes = [
-                "Recharge and reflect for the week ahead.",
-                "A fresh start to a productive week.",
-                "Stay focused and keep momentum.",
-                "Halfway there. Maintain the pace.",
-                "The finish line is within sight.",
-                "Finish strong and enjoy the results.",
-                "Unwind and prioritize yourself."
-            ];
-
             const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+            
+            let greetText;
+            let timePeriod; // Xác định buổi
 
+            // 1. Phân loại lời chào và buổi
+            if (hour < 12) {
+                greetText = "Good Morning.";
+                timePeriod = "morning";
+            } else if (hour < 18) {
+                greetText = "Good Afternoon.";
+                timePeriod = "afternoon";
+            } else {
+                greetText = "Good Evening.";
+                timePeriod = "evening";
+            }
+
+            // 2. Kho Quote theo buổi (Mỗi buổi 7 câu cho 7 ngày)
+            const quotes = {
+                morning: [
+                    "Quiet morning, deep focus.",
+                    "Start your Monday with intention.",
+                    "Clarity is the morning's gift.",
+                    "Mid-week momentum starts now.",
+                    "Rise and refine your craft.",
+                    "The final push before the weekend.",
+                    "A peaceful start to your Saturday."
+                ],
+                afternoon: [
+                    "Sunday afternoon reflection.",
+                    "Keep the Monday energy alive.",
+                    "Consistency beats intensity.",
+                    "Stay sharp through the mid-week.",
+                    "Focus on the work that matters.",
+                    "Finish your tasks, free your mind.",
+                    "Enjoy the rhythm of the day."
+                ],
+                evening: [
+                    "Rest well for the week ahead.",
+                    "Monday accomplished. Unwind.",
+                    "Progress made. Time to recover.",
+                    "Mid-week milestone reached.",
+                    "Wrap up and find your calm.",
+                    "The weekend has officially begun.",
+                    "Recharge your creative soul."
+                ]
+            };
+
+            // 3. Hiển thị
             document.getElementById('greeting').innerHTML = greetText;
-            document.getElementById('quote').innerHTML = `It's <span class="highlight">${days[day]}</span>. ${quotes[day]}`;
+            document.getElementById('quote').innerHTML = 
+                `It's <span class="highlight">${days[day]}</span>. ${quotes[timePeriod][day]}`;
         }
         
         updateWidget();
-        // Update every minute to ensure accuracy
-        setInterval(updateWidget, 60000);
+        setInterval(updateWidget, 60000); // Cập nhật mỗi phút
     </script>
 </body>
 </html>
